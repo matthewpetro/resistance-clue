@@ -31,6 +31,19 @@ static const int BRIGHTNESS = 0;
 static const int ROTATION = ROTATION_HEADER_RIGHT;
 static const int SCROLL_SPEED = SCROLL_MEDIUM;
 
+static const char ANSWERS[10][10] = {
+    { '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+};
+
 Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
 
 void setup()
@@ -107,5 +120,5 @@ void displayText(String text)
 }
 
 char mapDialsToAnswer(unsigned int dialValues[]) {
-	return '\0';
+	return ANSWERS[dialValues[0]][dialValues[1]];
 }
