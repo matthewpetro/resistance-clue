@@ -20,6 +20,7 @@ static const int SCROLL_SLOW = 200;
 
 static const int DIAL0_INPUT = 0;
 static const int DIAL1_INPUT = 1;
+static const int BUTTON_INPUT = 2;
 
 static const int I2C_ADDRESS = 0x70;
 static const int X_POSITION = 0;
@@ -55,32 +56,40 @@ void setup()
 	matrix.setRotation(ROTATION);
 	matrix.setBrightness(BRIGHTNESS);
 	matrix.clear();
+
+	pinMode(BUTTON_INPUT, INPUT_PULLUP);
 }
 
 void loop()
 {
-	unsigned int dialInputs[2];
-	dialInputs[0] = analogRead(DIAL0_INPUT);
-	dialInputs[1] = analogRead(DIAL1_INPUT);
+	int buttonInput = digitalRead(BUTTON_INPUT);
+	if (buttonInput == LOW)
+	{
+		unsigned int dialInputs[2];
+		dialInputs[0] = analogRead(DIAL0_INPUT);
+		dialInputs[1] = analogRead(DIAL1_INPUT);
 
-    unsigned int dialValues[2];
-	dialValues[0] = translateDialInput(dialInputs[0]);
-	dialValues[1] = translateDialInput(dialInputs[1]);
+		unsigned int dialValues[2];
+		dialValues[0] = translateDialInput(dialInputs[0]);
+		dialValues[1] = translateDialInput(dialInputs[1]);
 
-	char answerToDisplay = mapDialsToAnswer(dialValues);
+		char answerToDisplay = mapDialsToAnswer(dialValues);
 
-	if (answerToDisplay == '\0') {
-		displayText("Try again");
+		if (answerToDisplay == '\0')
+		{
+			displayText("Try again");
+		}
+		else
+		{
+			displayCharacter(answerToDisplay);
+		}
+
+		// Take the calculated value and display it.
+		Serial.print("Values are ");
+		Serial.print(dialValues[0]);
+		Serial.print(" ");
+		Serial.println(dialValues[1]);
 	}
-	else {
-		displayCharacter(answerToDisplay);
-	}
-
-	// Take the calculated value and display it.
-	Serial.print("Values are ");
-	Serial.print(dialValues[0]);
-	Serial.print(" ");
-	Serial.println(dialValues[1]);
 }
 
 unsigned int translateDialInput(unsigned int analogReading)
