@@ -23,7 +23,7 @@ static const int DIAL1_INPUT = 1;
 static const int BUTTON_INPUT = 2;
 
 static const int I2C_ADDRESS = 0x70;
-static const int X_POSITION = 0;
+static const int X_POSITION = 1;
 static const int Y_POSITION = 1;
 // Size multiplier can be 1, 2, or 3
 static const int SIZE_MULTIPLIER = 1;
@@ -34,9 +34,9 @@ static const int SCROLL_SPEED = SCROLL_MEDIUM;
 
 static const char ANSWERS[10][10] = {
     { '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', '\0', '\0', 'B',  '\0', '\0', '\0', '\0', '\0', '\0', },
 	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+	{ '\0', 'K',  '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
 	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
 	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
 	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
@@ -56,6 +56,7 @@ void setup()
 	matrix.setRotation(ROTATION);
 	matrix.setBrightness(BRIGHTNESS);
 	matrix.clear();
+	matrix.writeDisplay();
 
 	pinMode(BUTTON_INPUT, INPUT_PULLUP);
 }
@@ -63,7 +64,11 @@ void setup()
 void loop()
 {
 	int buttonInput = digitalRead(BUTTON_INPUT);
-	if (buttonInput == LOW)
+	if (buttonInput == HIGH) {
+		matrix.clear();
+		matrix.writeDisplay();
+	}
+	else
 	{
 		unsigned int dialInputs[2];
 		dialInputs[0] = analogRead(DIAL0_INPUT);
@@ -77,18 +82,12 @@ void loop()
 
 		if (answerToDisplay == '\0')
 		{
-			displayText("Try again");
+			scrollText("TRY AGAIN");
 		}
 		else
 		{
 			displayCharacter(answerToDisplay);
 		}
-
-		// Take the calculated value and display it.
-		Serial.print("Values are ");
-		Serial.print(dialValues[0]);
-		Serial.print(" ");
-		Serial.println(dialValues[1]);
 	}
 }
 
@@ -111,21 +110,27 @@ void displayCharacter(char character)
 	matrix.writeDisplay();
 }
 
-void displayText(String text)
+void scrollText(String text)
 {
 	const int CHARACTER_PIXEL_WIDTH = 6;
 	matrix.setTextColor(LED_ON);
 	matrix.setTextSize(SIZE_MULTIPLIER);
 	matrix.setTextWrap(false);
 	int textWidthInPixels = text.length() * CHARACTER_PIXEL_WIDTH;
-	for (int8_t x = X_POSITION; x >= X_POSITION - textWidthInPixels; x--)
+	displayText(X_POSITION, Y_POSITION, text);
+	delay(SCROLL_SPEED * 3);
+	for (int x = X_POSITION; x >= X_POSITION - textWidthInPixels; x--)
 	{
-		matrix.clear();
-		matrix.setCursor(x, Y_POSITION);
-		matrix.print(text);
-		matrix.writeDisplay();
+		displayText(x, Y_POSITION, text);
 		delay(SCROLL_SPEED);
 	}
+}
+
+void displayText(int xPos, int yPos, String text) {
+	matrix.clear();
+	matrix.setCursor(xPos, yPos);
+	matrix.print(text);
+	matrix.writeDisplay();
 }
 
 char mapDialsToAnswer(unsigned int dialValues[]) {
