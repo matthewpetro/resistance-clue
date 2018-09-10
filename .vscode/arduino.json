@@ -1,5 +1,0 @@
-{
-    "sketch": "resistance.ino",
-    "board": "arduino:avr:uno",
-    "port": "COM6"
-}
