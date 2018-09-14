@@ -97,7 +97,7 @@ unsigned int translateDialInput(unsigned int analogReading)
 	// This implements the proportion
 	// input/1023 = val/9.
 	// One "step" of the pot is about 113 ADC counts.
-	// We're adding 65 (1/2 of 113) to the input value, so that the
+	// We're adding 56 (1/2 of 113) to the input value, so that the
 	// input is in the middle of the window, rather than right at the edge, so values
 	// are stable and solid.
 	return (analogReading + 56) * 9 / 1023;
