@@ -5,7 +5,7 @@ The clue requires Hunters to perform some resistor math. The clue also has a jac
 
 Hunters use two dials to input the value of a resistor and then push a momentary button to test the answer. If the dial settings correspond to a correct or a jackass answer, an 8x8 LED matrix will display a letter. If they are incorrect, the matrix will scroll the text "TRY AGAIN".
 
-The dials are 10-position rotary switches which have been configured as voltage dividers using identical resistors. When the button is pressed, the code reads the voltage from the dials and translates it into integers in the range 0 through 9, inclusive. It then uses the integers to determine what will be shown on the 8x8 matrix display.
+The dials are 10-position rotary switches which have been configured as voltage dividers using 9 identical resistors. When the button is pressed, the code reads the voltage from the dials and translates it into integers in the range 0 through 9, inclusive. It then uses the integers to determine what will be shown on the 8x8 matrix display.
 
 # Good resources for building the hardware and software
 - [https://www.arduino.cc/reference/en](https://www.arduino.cc/reference/en) - General Arduino programming reference  
