@@ -1,0 +1,5 @@
+Resistor images came from https://info.pcboard.ca/resistor-color-code-calculator/
+Series and parallel circuit info came from https://physics.bu.edu/py106/notes/Circuits.html
+Hex values for resistor color codes: https://people.duke.edu/~ng46/topics/color-code.htm
+Good resistor color code chart: http://www.resistorguide.com/pictures/resistor_color_codes_chart.png
+Jack in the Box antenna ball: http://www.jackintheboxinc.com/press/image-library/premiums
