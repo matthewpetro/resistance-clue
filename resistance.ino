@@ -45,7 +45,7 @@ static const char ANSWERS[10][10] = {
 	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
 };
 
-Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
+Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
 
 void setup()
 {
@@ -106,14 +106,14 @@ unsigned int translateDialInput(unsigned int analogReading)
 void displayCharacter(char character)
 {
 	matrix.clear();
-	matrix.drawChar(X_POSITION, Y_POSITION, character, LED_ON, LED_OFF, SIZE_MULTIPLIER);
+	matrix.drawChar(X_POSITION, Y_POSITION, character, LED_GREEN, LED_OFF, SIZE_MULTIPLIER);
 	matrix.writeDisplay();
 }
 
 void scrollText(String text)
 {
 	const int CHARACTER_PIXEL_WIDTH = 6;
-	matrix.setTextColor(LED_ON);
+	matrix.setTextColor(LED_RED);
 	matrix.setTextSize(SIZE_MULTIPLIER);
 	matrix.setTextWrap(false);
 	int textWidthInPixels = text.length() * CHARACTER_PIXEL_WIDTH;
