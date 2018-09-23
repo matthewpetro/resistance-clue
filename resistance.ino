@@ -113,7 +113,7 @@ void displayCharacter(char character)
 void scrollText(String text)
 {
 	const int CHARACTER_PIXEL_WIDTH = 6;
-	matrix.setTextColor(LED_RED);
+	matrix.setTextColor(LED_RED, LED_OFF);
 	matrix.setTextSize(SIZE_MULTIPLIER);
 	matrix.setTextWrap(false);
 	int textWidthInPixels = text.length() * CHARACTER_PIXEL_WIDTH;
