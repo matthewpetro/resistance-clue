@@ -29,7 +29,7 @@ static const int Y_POSITION = 1;
 static const int SIZE_MULTIPLIER = 1;
 // Brightness can be an integer in the range 0 to 15 inclusive
 static const int BRIGHTNESS = 0;
-static const int ROTATION = ROTATION_HEADER_RIGHT;
+static const int ROTATION = ROTATION_HEADER_TOP;
 static const int SCROLL_SPEED = SCROLL_FAST;
 
 static const char ANSWERS[10][10] = {
