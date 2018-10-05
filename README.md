@@ -10,5 +10,5 @@ The dials are 10-position rotary switches which have been configured as voltage 
 # Good resources for building the hardware and software
 - [https://www.arduino.cc/reference/en](https://www.arduino.cc/reference/en) - General Arduino programming reference  
 - [https://learn.sparkfun.com/tutorials/rotary-switch-potentiometer-hookup-guide](https://learn.sparkfun.com/tutorials/rotary-switch-potentiometer-hookup-guide) - Tutorial on building a potentiometer out of SparkFun's 10-position rotary switch.  
-- [https://learn.adafruit.com/adafruit-led-backpack/1-2-8x8-matrix](https://learn.adafruit.com/adafruit-led-backpack/1-2-8x8-matrix) - Tutorial on wiring up and using Adafruit's 8x8 matrix and backpack.  
+- [https://learn.adafruit.com/adafruit-led-backpack/bi-color-8x8-matrix](https://learn.adafruit.com/adafruit-led-backpack/bi-color-8x8-matrix) - Tutorial on wiring up and using Adafruit's 8x8 bi-color matrix and backpack.  
 - [https://learn.adafruit.com/adafruit-gfx-graphics-library](https://learn.adafruit.com/adafruit-gfx-graphics-library) - Documentation for Adafruit's GFX graphics library. This is the API used for programming the backpack and 8x8 matrix.  
