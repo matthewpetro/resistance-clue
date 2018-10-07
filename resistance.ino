@@ -11,13 +11,6 @@ static const int ROTATION_HEADER_BOTTOM = 1;
 static const int ROTATION_HEADER_RIGHT = 2;
 static const int ROTATION_HEADER_TOP = 3;
 
-// Scroll speeds are defined using the number of milliseconds
-// between screen refreshes. Whenever the screen refreshes,
-// the text is moved left by one pixel.
-static const int SCROLL_FAST = 100;
-static const int SCROLL_MEDIUM = 150;
-static const int SCROLL_SLOW = 200;
-
 static const int DIAL0_INPUT = 0;
 static const int DIAL1_INPUT = 1;
 static const int BUTTON_INPUT = 2;
@@ -30,8 +23,13 @@ static const int SIZE_MULTIPLIER = 1;
 // Brightness can be an integer in the range 0 to 15 inclusive
 static const int BRIGHTNESS = 0;
 static const int ROTATION = ROTATION_HEADER_TOP;
-static const int SCROLL_SPEED = SCROLL_FAST;
+// Delay in milliseconds between pixel shifts during text scrolling
+static const int SCROLL_SPEED = 50;
 
+// Set up a 2 dimensional array to store the mapping of dial inputs
+// to responses. Since the dial inputs are zero indexed just like arrays,
+// this approach works well. The dial on the left corresponds to the
+// rows below and the dial on the right corresponds to the columns.
 static const char RESPONSES[10][10] = {
     { '\0', '\0', '\0', '\0', 'G' , '\0', 'B' , '\0', '\0', '\0', },
 	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'K' , '\0', },
@@ -62,7 +60,11 @@ void setup() {
 
 void loop() {
 	int currentButtonInput = digitalRead(BUTTON_INPUT);
+	// The main portion of the code will only execute if the button
+	// input has changed since the last time through the loop() function.
 	if (currentButtonInput != previousButtonInput) {
+		// Due to the use of the pullup  resistor, the button input
+		// reads as HIGH when the button is not pressed.
 		if (currentButtonInput == HIGH) {
 	    	clearDisplay();
 	    }
@@ -72,8 +74,8 @@ void loop() {
 			char responseToDisplay = mapDialsToResponse(dialValues);
 			displayResponse(responseToDisplay);
 	    }
-		previousButtonInput = currentButtonInput;
 	}
+	previousButtonInput = currentButtonInput;
 }
 
 void clearDisplay() {
@@ -82,15 +84,14 @@ void clearDisplay() {
 }
 
 void readDialValues(unsigned int dialValues[]) {
-	unsigned int dialInputs[2];
-	dialInputs[0] = analogRead(DIAL0_INPUT);
-	dialInputs[1] = analogRead(DIAL1_INPUT);
+	unsigned int dialInput0 = analogRead(DIAL0_INPUT);
+	unsigned int dialInput1 = analogRead(DIAL1_INPUT);
 
 	Serial.print("Dial 0 - ");
-	dialValues[0] = translateDialInput(dialInputs[0]);
+	dialValues[0] = translateDialInput(dialInput0);
     Serial.print("  ");
 	Serial.print("Dial 1 - ");
-	dialValues[1] = translateDialInput(dialInputs[1]);
+	dialValues[1] = translateDialInput(dialInput1);
     Serial.println("");
 }
 
@@ -111,17 +112,16 @@ unsigned int translateDialInput(unsigned int analogReading) {
 	// We're adding 56 (1/2 of 113) to the input value, so that the
 	// input is in the middle of the window, rather than right at the edge, so values
 	// are stable and solid.
-	float floatVal = (analogReading + 56) * float(9) / float(1023);
-	unsigned int intVal = (analogReading + 56) * 9 / 1023;
+	float translatedValue = (analogReading + 56) * float(9) / float(1023);
 
-    Serial.print("intVal: ");
-	Serial.print(intVal);
-	Serial.print(", floatVal: ");
-	Serial.print(floatVal);
-	Serial.print(", analog: ");
+    Serial.print("int value: ");
+	Serial.print((unsigned int)translatedValue);
+	Serial.print(", float value: ");
+	Serial.print(translatedValue);
+	Serial.print(", analog reading: ");
 	Serial.print(analogReading);
 
-	return intVal;
+	return (unsigned int)translatedValue;
 }
 
 void displayCharacter(char character) {
@@ -131,13 +131,19 @@ void displayCharacter(char character) {
 }
 
 void scrollText(String text) {
-	const int CHARACTER_PIXEL_WIDTH = 6;
 	matrix.setTextColor(LED_RED, LED_OFF);
 	matrix.setTextSize(SIZE_MULTIPLIER);
 	matrix.setTextWrap(false);
-	int textWidthInPixels = text.length() * CHARACTER_PIXEL_WIDTH;
 	displayText(X_POSITION, Y_POSITION, text);
-	delay(SCROLL_SPEED * 3);
+	// Show the first characters of the text for double the delay time between
+	// pixels shifts during scolling. This gives users just enough time to
+	// start reading before the text scrolls.
+	delay(SCROLL_SPEED * 2);
+	const int CHARACTER_PIXEL_WIDTH = 6;
+	int textWidthInPixels = text.length() * CHARACTER_PIXEL_WIDTH;
+	// Within the for loop, the X position will be decremented until it's
+	// far enough to the left that the text has been completely shifted
+	// off the screen.
 	for (int x = X_POSITION; x >= X_POSITION - textWidthInPixels; x--) {
 		displayText(x, Y_POSITION, text);
 		delay(SCROLL_SPEED);
