@@ -27,20 +27,21 @@ static const int ROTATION = ROTATION_HEADER_TOP;
 static const int SCROLL_SPEED = 50;
 
 // Set up a 2 dimensional array to store the mapping of dial inputs
-// to responses. Since the dial inputs are zero indexed just like arrays,
-// this approach works well. The dial on the left corresponds to the
-// rows below and the dial on the right corresponds to the columns.
+// to responses. This approach works well because the dial inputs
+// are zero indexed just like arrays. The dial on the left corresponds
+// to the rows below and the dial on the right corresponds to the columns.
 static const char RESPONSES[10][10] = {
-    { '\0', '\0', '\0', '\0', 'G' , '\0', 'B' , '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'K' , '\0', },
-	{ 'J' , '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', 'O' , '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', 'A' , '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', 'R' , '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'C' , '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
-	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', },
+    { '\0', '\0', '\0', '\0', 'G' , '\0', 'B' , '\0', '\0', '\0', }, // BLACK
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'K' , '\0', }, // BROWN
+	{ 'J' , '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', }, // RED
+	{ '\0', 'O' , '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', }, // ORANGE
+	{ '\0', '\0', '\0', '\0', '\0', 'A' , '\0', '\0', '\0', '\0', }, // YELLOW
+	{ '\0', '\0', '\0', '\0', 'R' , '\0', '\0', '\0', '\0', '\0', }, // GREEN
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'C' , '\0', }, // BLUE
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', }, // VIOLET
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', }, // GRAY
+	{ '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', }, // WHITE
+   // BLK   BRN   RED   ORNG  YELO  GRN   BLUE  VLT   GRY   WHT
 };
 
 Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
