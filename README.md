@@ -7,6 +7,24 @@ Hunters use two dials to input the value of a resistor and then push a momentary
 
 The dials are 10-position rotary switches which have been configured as voltage dividers using 9 identical resistors. When the button is pressed, the code reads the voltage from the dials and translates it into integers in the range 0 through 9, inclusive. It then uses the integers to determine what will be shown on the 8x8 matrix display.
 
+# Wiring connections
+
+## Rotary switches ##
+* CW to 5V
+* CCW to GND
+* W on left dial to pin A0
+* W on right dial to pin A1
+
+## Button ##
+* NO (normally open) to digital pin 2
+* COM to GND
+
+## Bi-color display matrix
+* VCC to 5V
+* GND to GND
+* SDA to  pin A4
+* SCL to pin A5
+
 # Good resources for building the hardware and software
 - [https://www.arduino.cc/reference/en](https://www.arduino.cc/reference/en) - General Arduino programming reference  
 - [https://learn.sparkfun.com/tutorials/rotary-switch-potentiometer-hookup-guide](https://learn.sparkfun.com/tutorials/rotary-switch-potentiometer-hookup-guide) - Tutorial on building a potentiometer out of SparkFun's 10-position rotary switch.  
