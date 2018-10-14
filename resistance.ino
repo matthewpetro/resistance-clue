@@ -68,8 +68,10 @@ void loop() {
 	// The main portion of the code will only execute if the button
 	// input has changed since the last time through the loop() function.
 	if (currentButtonInput != previousButtonInput) {
-		// Due to the use of the pullup  resistor, the button input
-		// reads as HIGH when the button is not pressed.
+		// Due to the use of the pullup resistor, the button input
+		// reads as HIGH when the button is not pressed. Note that the
+		// button's NO (normally open) connection is wired to the
+		// Arduino's input pin.
 		if (currentButtonInput == HIGH) {
 	    	clearDisplay();
 	    }
